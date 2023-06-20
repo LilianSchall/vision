@@ -22,4 +22,6 @@ impl Movable<Vector2> for Vector2 {
 }
 
 
-impl Vector for Vector2 {}
+impl Vector for Vector2 {
+    const ZERO: Vector2 = Vector2{x: 0.0, y: 0.0};
+}

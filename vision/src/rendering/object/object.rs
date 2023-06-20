@@ -6,13 +6,15 @@ use crate::rendering::Renderable;
 
 pub struct Object {
     pos: Vector3,
+    rotation: Vector3,
     mesh: Mesh,
 }
 
 impl Object {
-    pub fn new(pos: Vector3, mesh: Mesh) -> Object {
+    pub fn new(pos: Vector3, rotation: Vector3, mesh: Mesh) -> Object {
         Object {
             pos,
+            rotation,
             mesh,
         }
     }

@@ -24,4 +24,6 @@ impl Movable<Vector3> for Vector3 {
     }
 }
 
-impl Vector for Vector3 {}
+impl Vector for Vector3 {
+    const ZERO: Vector3 = Vector3{x: 0.0, y: 0.0, z: 0.0};
+}

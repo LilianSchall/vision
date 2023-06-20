@@ -1,5 +1,5 @@
 pub trait Vector {
-
+    const ZERO: Self;
 }
 
 pub trait Movable<T: Vector> {
