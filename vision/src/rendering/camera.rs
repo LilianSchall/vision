@@ -9,8 +9,6 @@ pub struct Camera<'a> {
     pos_in_world: Vector3,
     // its rotation
     rotation: Vector3,
-    // the SDL renderer that is responsible of the texture
-    renderer: &'a TextureCreator<WindowContext>,
     // the SDL texture that will be rendered on canvas
     texture: Texture<'a>,
 }
@@ -22,7 +20,6 @@ impl<'a> Camera<'a> {
             pos_on_canvas,
             pos_in_world,
             rotation,
-            renderer,
             texture,
         }
     }

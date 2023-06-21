@@ -1,6 +1,11 @@
 use sdl2::render::{TextureCreator, WindowCanvas};
 use sdl2::video::{Window, WindowContext};
-use crate::rendering::Engine;
+
+pub struct Init {
+    pub(crate) canvas: WindowCanvas,
+    pub(crate) renderer: TextureCreator<WindowContext>,
+    pub(crate) dim: (u32, u32)
+}
 
 pub fn initialize_canvas(title: &str, dim: (u32, u32)) -> WindowCanvas {
     let (w,h) = dim;
@@ -18,7 +23,13 @@ pub fn initialize_canvas(title: &str, dim: (u32, u32)) -> WindowCanvas {
     canvas
 }
 
-pub fn init(title: &str, dim: (u32, u32)) -> WindowCanvas {
+pub fn init(title: &str, dim: (u32, u32)) -> Init {
     let canvas = initialize_canvas(title, dim);
-    canvas
+    let renderer = canvas.texture_creator();
+
+    Init {
+        canvas,
+        renderer,
+        dim
+    }
 }
