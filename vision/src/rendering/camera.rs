@@ -18,15 +18,15 @@ pub struct Camera<'a> {
 }
 
 impl<'a> Camera<'a> {
-    pub fn new(pos_on_canvas: Vector2, pos_in_world: Vector3, rotation: Vector3, renderer: &'a TextureCreator<WindowContext>) -> Camera {
-        let (width, height): (u32, u32) = (800, 600);
+    pub fn new(size: Vector2, pos_on_canvas: Vector2, pos_in_world: Vector3, rotation: Vector3, renderer: &'a TextureCreator<WindowContext>) -> Camera {
+        let (width, height) = (size.x as u32, size.y as u32);
         let texture = renderer.create_texture(None, TextureAccess::Streaming, width, height).unwrap();
         Camera {
             pos_on_canvas,
             pos_in_world,
             rotation,
             texture,
-            size: Vector2::new(width as f64, height as f64),
+            size,
             pixels: vec![0; (width * height * 3) as usize],
         }
     }

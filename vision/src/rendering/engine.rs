@@ -28,13 +28,16 @@ impl <'a>Engine<'a> {
         }
     }
 
-    pub fn add_camera(&mut self, pos_on_screen: Vector2, pos_in_world: Vector3, rotation: Vector3) {
-        let camera = Camera::new(pos_on_screen, pos_in_world, rotation, self.renderer);
+    pub fn add_camera(&mut self, size: Vector2, pos_on_screen: Vector2, pos_in_world: Vector3, rotation: Vector3) {
+        let camera = Camera::new(size, pos_on_screen, pos_in_world, rotation, self.renderer);
         self.cameras.push(camera);
     }
 
-    pub fn add_centered_camera(&mut self, pos_on_screen: Vector2) {
-        self.add_camera(pos_on_screen, Vector3::ZERO, Vector3::ZERO)
+    pub fn add_centered_camera(&mut self, size: Vector2, pos_on_screen: Vector2) {
+        self.add_camera(size, pos_on_screen, Vector3::ZERO, Vector3::ZERO)
+    }
+    pub fn add_object(&mut self, obj: Object) {
+        self.objects.push(obj);
     }
 
     pub fn run(&mut self) {
