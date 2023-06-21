@@ -1,5 +1,5 @@
 use sdl2::render::{TextureCreator, WindowCanvas};
-use sdl2::video::{Window, WindowContext};
+use sdl2::video::{WindowContext};
 
 pub struct Init {
     pub(crate) canvas: WindowCanvas,

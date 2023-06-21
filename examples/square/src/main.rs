@@ -1,7 +1,6 @@
-use std::borrow::Borrow;
 use vision::constraints::Vector;
-use vision::math::{Vector2, Vector3};
-use vision::rendering::{Camera, Engine, init, Init};
+use vision::math::{Vector2};
+use vision::rendering::{Engine, init};
 
 fn main() {
     //let mut initializer = Box::<Init>::new(init("Square: Vision", (800, 600)));
