@@ -17,10 +17,14 @@ impl Vector3 {
 }
 
 impl Movable<Vector3> for Vector3 {
-    fn translate(&mut self, translation: &Vector3) {
+    fn translate(&mut self, translation: Vector3) {
         self.x += translation.x;
         self.y += translation.y;
         self.z += translation.z;
+    }
+
+    fn rotate(&mut self, rotation: Vector3) {
+
     }
 }
 
