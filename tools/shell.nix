@@ -8,6 +8,7 @@ pkgs.mkShell {
         SDL2_gfx
         SDL2_ttf
         SDL2_mixer
+        cmake
     ];
     shellHook = 
       ''
