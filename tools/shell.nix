@@ -4,6 +4,7 @@ stdenv.mkDerivation {
   nativeBuildInputs = [ 
     pkg-config
     cmake
+    valgrind
   ];
   buildInputs = [
     SDL2
