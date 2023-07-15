@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "tools/sdltools.hh"
+#include "keyboard.hh"
 
 class Engine {
 public:
