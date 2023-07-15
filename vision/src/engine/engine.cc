@@ -1,3 +1,4 @@
+#include <iostream>
 #include "engine.hh"
 
 Engine::Engine(std::string title, int width, int height) {
@@ -23,8 +24,17 @@ int Engine::run() {
     SDL_Event event;
     bool running = true;
 
-    while (SDL_PollEvent(&event) && running) {
-        handle_keyboard_event(&event, &running);
+    while (running) {
+        if (SDL_PollEvent(&event)) {
+            // we wrap the polling of event in a condition
+            // so that we do not send an event to handle
+            // that has been already processed
+            handle_keyboard_event(&event, &running);
+        }
+        SDL_SetRenderDrawColor(this->renderer.get(), 0,0,0,0);
+        SDL_RenderClear(this->renderer.get());
+        SDL_RenderPresent(this->renderer.get());
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 60));
     }
 
     return 0;

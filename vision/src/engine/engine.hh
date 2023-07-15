@@ -1,9 +1,11 @@
 #ifndef SETUP_HH
 #define SETUP_HH
 
-#include <string>
+#include <chrono>
 #include <SDL2/SDL.h>
 #include <memory>
+#include <string>
+#include <thread>
 
 #include "tools/sdltools.hh"
 #include "keyboard.hh"
