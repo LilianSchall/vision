@@ -1,6 +1,6 @@
-#include "setup.hh"
+#include "engine.hh"
 
-Init::Init(std::string title, int width, int height) {
+Engine::Engine(std::string title, int width, int height) {
 
     this->_width = width;
     this->_height = height;
@@ -16,4 +16,16 @@ Init::Init(std::string title, int width, int height) {
 
     this->window = std::unique_ptr<SDL_Window, SDL_WindowDestroyer>(window);
     this->renderer = std::unique_ptr<SDL_Renderer, SDL_RendererDestroyer>(renderer);
+}
+
+int Engine::run() {
+
+    SDL_Event event;
+    bool running = true;
+
+    while (SDL_PollEvent(&event) && running) {
+        handle_keyboard_event(&event, &running);
+    }
+
+    return 0;
 }

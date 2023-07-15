@@ -1,6 +1,8 @@
 #include "vision.hh"
 
 int main() {
-    std::cout << "vision" << std::endl;
-    return 0;
+
+    std::unique_ptr<Engine> engine = std::make_unique<Engine>("vision", 680, 420);
+
+    return engine->run();
 }

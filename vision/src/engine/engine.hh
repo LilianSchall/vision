@@ -7,9 +7,10 @@
 
 #include "tools/sdltools.hh"
 
-class Init {
+class Engine {
 public:
-    Init(std::string title, int width, int height);
+    Engine(std::string title, int width, int height);
+    int run();
 
 public:
     std::unique_ptr<SDL_Window, SDL_WindowDestroyer> window;
