@@ -3,6 +3,6 @@
 
 #include <iostream>
 
-#define ONE 1
+#include "setup/setup.hh"
 
-#endif
+#endif //! VISION_HH
