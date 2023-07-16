@@ -19,4 +19,6 @@ public:
 
 };
 
+#include "vector2.hxx"
+
 #endif // !VECTOR2_HH

@@ -41,4 +41,3 @@ double Vector2::norm() {
 double Vector2::norm2() {
     return x * x + y * y;
 }
-
