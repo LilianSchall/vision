@@ -13,7 +13,7 @@
 class Engine {
 public:
     Engine(std::string title, int width, int height);
-    int run();
+    int run() const;
 
 public:
     std::unique_ptr<SDL_Window, SDL_WindowDestroyer> window;
