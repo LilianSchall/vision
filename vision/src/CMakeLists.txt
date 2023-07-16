@@ -5,6 +5,7 @@ add_subdirectory(tools)
 add_subdirectory(transform)
 add_subdirectory(maths)
 add_subdirectory(object)
+add_subdirectory(render)
 
 target_sources(${PROJECT_NAME} PRIVATE
         vision.cc)
