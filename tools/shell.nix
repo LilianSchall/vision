@@ -1,6 +1,7 @@
 with import <nixpkgs> {};
 stdenv.mkDerivation {
   name = "env";
+  hardeningDisable = ["all"];
   nativeBuildInputs = [ 
     pkg-config
     cmake
@@ -8,6 +9,7 @@ stdenv.mkDerivation {
   ];
   buildInputs = [
     SDL2
+    gdb
   ];
 }
 
