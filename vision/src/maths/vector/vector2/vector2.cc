@@ -41,3 +41,13 @@ double Vector2::norm() {
 double Vector2::norm2() {
     return x * x + y * y;
 }
+
+Vector2& Vector2::zero() {
+    static Vector2 zero = Vector2(0, 0);
+
+    return zero;
+}
+
+SDL_Rect Vector2::to_sdl_rect(int width, int height) {
+    return SDL_Rect{static_cast<int>(x), static_cast<int>(y),width,height};
+}

@@ -13,11 +13,12 @@ public:
     double norm() override;
     double norm2() override;
 
+    static Vector3& zero();
+
 public:
     double x;
     double y;
     double z;
-
 };
 
 #include "vector3.hxx"

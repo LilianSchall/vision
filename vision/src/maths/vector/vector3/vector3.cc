@@ -46,3 +46,9 @@ double Vector3::norm2() {
     return x * x + y * y + z * z;
 }
 
+Vector3& Vector3::zero() {
+    static Vector3 zero = Vector3(0, 0, 0);
+
+    return zero;
+}
+

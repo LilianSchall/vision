@@ -36,4 +36,5 @@ inline Vector2 operator/(const Vector2 &v, double c) {
 inline double dot(const Vector2 &u, const Vector2 &v) {
     return u.x * v.x + u.y * v.y;
 }
+
 #endif // !VECTOR2_HXX
