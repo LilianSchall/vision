@@ -14,7 +14,7 @@ set_target_properties(vision PROPERTIES
         CXX_EXTENSIONS OFF
         )
 
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -pedantic)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -pedantic -g)
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
 find_library(SDL2 NAMES SDL2)
