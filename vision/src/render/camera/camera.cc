@@ -2,13 +2,15 @@
 
 Camera::Camera(Transform &_transform, Vector2 &_image_size, Vector2 &_pos_on_screen, Vector2 &_viewport,
                double _focal_length)
-        : Object(_transform), pos_on_screen(_pos_on_screen), viewport(_viewport),
-          focal_length(_focal_length),
+        : Object(_transform), focal_length(_focal_length), pos_on_screen(_pos_on_screen),
+          viewport(_viewport),
           buffer(static_cast<int>(_image_size.x), static_cast<int>(_image_size.y)) {
 
     aspect_ratio = max2<double>(_image_size.x, _image_size.y) / min2<double>(_image_size.x, _image_size.y);
     image_width = static_cast<int>(_image_size.x);
     image_height = static_cast<int>(_image_size.y);
+
+    Engine::add_camera(*this);
 }
 
 void Camera::create_texture(SDL_Renderer *renderer) {
@@ -20,16 +22,28 @@ void Camera::create_texture(SDL_Renderer *renderer) {
     texture = std::unique_ptr<SDL_Texture, SDL_TextureDestroyer>(_texture);
 }
 
-RgbColor ray_color(const Ray &ray, std::list<Object *> *objs) {
-    for (Object *obj : *objs) {
-        double t = obj->hit(ray);
+bool Camera::shoot_ray(const Ray &ray, double t_min, double t_max, HitRecord &record, std::list<Object *> *objs) {
+    HitRecord temp_record;
+    bool hit_anything = false;
+    double closest = t_max;
 
-        if (t > 0.0) {
-            Vector3 target = ray.at(t) - obj->transform.position;
-            target.normalize();
-            return 0.5 * RgbColor{target.x + 1, target.y + 1, target.z + 1};
-       }
+    for (Object *object: *objs) {
+        if (object->hit(ray, t_min, closest, temp_record)) {
+            hit_anything = true;
+            closest = temp_record.t;
+            record = temp_record;
+        }
     }
+
+    return hit_anything;
+}
+
+RgbColor Camera::ray_color(const Ray &ray, std::list<Object *> *objs) {
+    HitRecord record;
+    if (shoot_ray(ray, 0, infinity, record, objs)) {
+        return 0.5 * (record.normal + RgbColor{1, 1, 1});
+    }
+
     Vector3 unit_dir = ray.dir;
     unit_dir.normalize();
 
