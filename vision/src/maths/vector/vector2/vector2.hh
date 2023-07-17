@@ -12,12 +12,13 @@ public:
     Vector& operator-=(const Vector& other) override;
     Vector& operator*=(double other) override;
     Vector& operator/=(double other) override;
-    double norm() override;
-    double norm2() override;
+    double norm() const override;
+    double norm2() const override;
 
     SDL_Rect to_sdl_rect(int width, int height);
 
     static Vector2& zero();
+    static Vector2& one();
 
 
 public:

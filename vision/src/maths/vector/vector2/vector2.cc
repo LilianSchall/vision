@@ -34,11 +34,11 @@ Vector &Vector2::operator/=(double other) {
     return *this;
 }
 
-double Vector2::norm() {
+double Vector2::norm() const {
     return sqrt(norm2());
 }
 
-double Vector2::norm2() {
+double Vector2::norm2() const {
     return x * x + y * y;
 }
 
@@ -46,6 +46,12 @@ Vector2& Vector2::zero() {
     static Vector2 zero = Vector2(0, 0);
 
     return zero;
+}
+
+Vector2& Vector2::one() {
+    static Vector2 one = Vector2{1,1};
+
+    return one;
 }
 
 SDL_Rect Vector2::to_sdl_rect(int width, int height) {

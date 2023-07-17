@@ -38,11 +38,11 @@ Vector &Vector3::operator/=(double other) {
     return *this;
 }
 
-double Vector3::norm() {
+double Vector3::norm() const {
     return sqrt(norm2());
 }
 
-double Vector3::norm2() {
+double Vector3::norm2() const {
     return x * x + y * y + z * z;
 }
 
@@ -52,3 +52,8 @@ Vector3& Vector3::zero() {
     return zero;
 }
 
+Vector3& Vector3::one() {
+    static Vector3 one = Vector3(1, 1, 1);
+
+    return one;
+}
