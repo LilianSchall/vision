@@ -1,8 +1,10 @@
 #include "sphere.hh"
 
-Sphere::Sphere(Transform &_transform, double _radius) : Object(_transform), radius(_radius) {}
+Sphere::Sphere(Transform &_transform, double _radius) : Object(_transform), radius(_radius) {
+    Engine::add_object(*this);
+}
 
-double Sphere::hit(const Ray &ray) {
+bool Sphere::hit(const Ray &ray, double t_min, double t_max, HitRecord& record) {
     // The equation of a sphere of center C with a Point P on the sphere is:
     // (P - C) \dot (P - C) = radius ^ 2
     // We want to know if our Ray P(t) = origin + t * dir ever hits the sphere
@@ -21,8 +23,23 @@ double Sphere::hit(const Ray &ray) {
 
     double delta = half_b * half_b - a * c;
 
-    // branch-less programming: this is the same as:
-    // if delta < 0 : return -1 else return x1
-    // check-out this awesome video: https://youtu.be/bVJ-mWWL7cE
-    return (delta < 0) * -1 + (delta >= 0) * ((-half_b - sqrt(delta)) / (a));
+    if (delta < 0)
+        return false;
+
+    double sqrt_delta = sqrt(delta);
+
+    double root = (-half_b - sqrt_delta) / a;
+
+    if (root < t_min || root > t_max) {
+        root = (-half_b + sqrt_delta) / a;
+        if (root < t_min || root > t_max)
+            return false;
+    }
+
+    record.t = root;
+    record.p = ray.at(root);
+    Vector3 outward_normal = (record.p - this->transform.position) / radius;
+    record.set_face_normal(ray, outward_normal);
+
+    return true;
 }
