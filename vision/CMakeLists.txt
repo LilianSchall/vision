@@ -11,10 +11,9 @@ add_subdirectory(src/)
 set_target_properties(vision PROPERTIES OUTPUT_NAME vision)
 set_target_properties(vision PROPERTIES
         CXX_STANDARD 20
-        CXX_EXTENSIONS OFF
         )
 
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -pedantic -g)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -pedantic -g -pthread)
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
 find_library(SDL2 NAMES SDL2)

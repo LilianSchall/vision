@@ -20,7 +20,16 @@ void Camera::create_texture(SDL_Renderer *renderer) {
     texture = std::unique_ptr<SDL_Texture, SDL_TextureDestroyer>(_texture);
 }
 
-RgbColor ray_color(const Ray &ray) {
+RgbColor ray_color(const Ray &ray, std::list<Object *> *objs) {
+    for (Object *obj : *objs) {
+        double t = obj->hit(ray);
+
+        if (t > 0.0) {
+            Vector3 target = ray.at(t) - obj->transform.position;
+            target.normalize();
+            return 0.5 * RgbColor{target.x + 1, target.y + 1, target.z + 1};
+       }
+    }
     Vector3 unit_dir = ray.dir;
     unit_dir.normalize();
 
@@ -29,7 +38,7 @@ RgbColor ray_color(const Ray &ray) {
     return (1.0 - t) * RgbColor(1.0, 1.0, 1.0) + t * RgbColor(0.5, 0.7, 1.0);
 }
 
-void Camera::render(SDL_Renderer *renderer) {
+void Camera::render(SDL_Renderer *renderer, std::list<Object *> *objs) {
 
     Vector3 vertical = this->transform.down() * viewport.y;
     Vector3 horizontal = this->transform.right() * viewport.x;
@@ -41,7 +50,7 @@ void Camera::render(SDL_Renderer *renderer) {
             double v = double(y) / (image_height - 1);
             Ray ray = Ray{this->transform.position,
                           lower_left_corner + u * horizontal + v * vertical - this->transform.position};
-            RgbColor color = ray_color(ray);
+            RgbColor color = ray_color(ray, objs);
             buffer.put(x, y, color);
         }
     }

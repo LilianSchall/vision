@@ -9,8 +9,8 @@ public:
     virtual Vector& operator-=(const Vector& other) = 0;
     virtual Vector& operator*=(double other) = 0;
     virtual Vector& operator/=(double other) = 0;
-    virtual double norm() = 0;
-    virtual double norm2() = 0;
+    virtual double norm() const = 0;
+    virtual double norm2() const = 0;
     Vector& normalize() {
         *this /= norm();
         return *this;

@@ -10,10 +10,11 @@ public:
     Vector& operator-=(const Vector& other) override;
     Vector& operator*=(double other) override;
     Vector& operator/=(double other) override;
-    double norm() override;
-    double norm2() override;
+    double norm() const override;
+    double norm2() const override;
 
     static Vector3& zero();
+    static Vector3& one();
 
 public:
     double x;
