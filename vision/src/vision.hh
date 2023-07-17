@@ -5,5 +5,6 @@
 
 #include "engine/engine.hh"
 #include "object/object.hh"
+#include "object/sphere/sphere.hh"
 
 #endif //! VISION_HH
