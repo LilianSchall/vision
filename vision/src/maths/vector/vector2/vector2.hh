@@ -7,13 +7,14 @@
 
 class Vector2 : public Vector {
 public:
+    Vector2() = default;
     Vector2(double _x, double _y);
     Vector& operator+=(const Vector& other) override;
     Vector& operator-=(const Vector& other) override;
     Vector& operator*=(double other) override;
     Vector& operator/=(double other) override;
-    double norm() const override;
-    double norm2() const override;
+    [[nodiscard]] double norm() const override;
+    [[nodiscard]] double norm2() const override;
 
     SDL_Rect to_sdl_rect(int width, int height);
 
@@ -22,8 +23,8 @@ public:
 
 
 public:
-    double x;
-    double y;
+    double x = 0;
+    double y = 0;
 
 };
 

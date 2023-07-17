@@ -17,6 +17,10 @@ inline Vector3 operator-(const Vector3 &u, const Vector3 &v) {
     return Vector3{u.x - v.x, u.y - v.y, u.z - v.z};
 }
 
+inline Vector3 operator-(const Vector3 &u) {
+    return Vector3{-u.x, -u.y,-u.z};
+}
+
 inline Vector3 operator*(const Vector3 &u, const Vector3 &v) {
     return Vector3{u.x * v.x, u.y * v.y, u.z * v.z};
 }

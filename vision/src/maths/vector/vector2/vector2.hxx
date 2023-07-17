@@ -17,6 +17,10 @@ inline Vector2 operator-(const Vector2 &u, const Vector2 &v) {
     return Vector2{u.x - v.x, u.y - v.y};
 }
 
+inline Vector2 operator-(const Vector2 &u) {
+    return Vector2{-u.x, -u.y};
+}
+
 inline Vector2 operator*(const Vector2 &u, const Vector2 &v) {
     return Vector2{u.x * v.x, u.y * v.y};
 }
