@@ -4,7 +4,8 @@
 #include <iostream>
 
 #include "engine/engine.hh"
-#include "object/object.hh"
+#include "maths/vector/vector2/vector2.hh"
+#include "render/camera/camera.hh"
 #include "object/sphere/sphere.hh"
 
 #endif //! VISION_HH

@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 
 project(vision)
-include(FetchContent)
-set(FETCHCONTENT_QUIET FALSE)
-
 
 add_executable(vision)
 add_subdirectory(src/)
