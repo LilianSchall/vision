@@ -47,4 +47,13 @@ inline Vector3 cross(const Vector3 &u, const Vector3 &v) {
                    u.x * v.y - u.y * v.x};
 }
 
+inline Point3 random_in_unit_sphere() {
+    while (true) {
+        Point3 p = Vector3::random(-1, 1);
+        if (p.norm2() >= 1)
+            continue;
+        return p;
+    }
+}
+
 #endif // !VECTOR3_HXX

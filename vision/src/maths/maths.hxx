@@ -18,4 +18,13 @@ inline T& min2(T &a, T &b) {
     return a > b ? b : a;
 }
 
+template <Comparable T>
+inline T clamp(T x, T min, T max) {
+    if (x < min)
+        return min;
+    if (x > max)
+        return max;
+    return x;
+}
+
 #endif // !MATHS_HXX

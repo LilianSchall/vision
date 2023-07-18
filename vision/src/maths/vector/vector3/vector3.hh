@@ -2,6 +2,7 @@
 #define VECTOR3_HH
 
 #include "maths/vector/vector.hh"
+#include "maths/maths.hh"
 
 class Vector3 : public Vector {
 public:
@@ -16,6 +17,13 @@ public:
 
     static Vector3& zero();
     static Vector3& one();
+    static inline Vector3 random() {
+        return Vector3{random_double(), random_double(), random_double()};
+    }
+
+    static inline Vector3 random(int min, int max) {
+        return Vector3{random_double(min,max), random_double(min,max), random_double(min, max)};
+    }
 
 public:
     double x = 0;
