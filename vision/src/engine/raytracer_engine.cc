@@ -7,16 +7,30 @@ RayTracerEngine::RayTracerEngine(const std::string &title, int width, int height
     this->_width = width;
     this->_height = height;
 
-    SDL_Init(SDL_INIT_VIDEO);
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        std::cerr << "Could not SDL_Init. Reason: " << SDL_GetError() << "\n";
+        // TODO: Clean exit
+    }
 
     SDL_Window *_window = SDL_CreateWindow(title.c_str(),
                                            SDL_WINDOWPOS_CENTERED,
                                            SDL_WINDOWPOS_CENTERED,
                                            width, height,
                                            0);
+
+    if (_window == nullptr) {
+        std::cerr << "SDL_Window has not been created. Reason: " << SDL_GetError() << "\n";
+        // TODO: Clean exit
+    }
+
     SDL_Renderer *_renderer = SDL_CreateRenderer(_window,
                                                  -1,
                                                  SDL_RENDERER_ACCELERATED);
+
+    if (_renderer == nullptr) {
+        std::cerr << "SDL_Renderer has not been created. Reason: " << SDL_GetError() << "\n";
+        // TODO: Clean exit
+    }
 
     this->window = std::unique_ptr<SDL_Window, SDL_WindowDestroyer>(_window);
     this->renderer = std::unique_ptr<SDL_Renderer, SDL_RendererDestroyer>(_renderer);
@@ -61,7 +75,7 @@ void task_render(bool *running, SDL_Renderer *renderer, std::list<Object*> *obje
 
         // after rendering all POVs from the camera, we present the frame to the user
         SDL_RenderPresent(renderer);
-        std::cout << "Render..\n";
+        std::cout << "Rendered frame\n";
     }
 
 }
