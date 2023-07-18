@@ -10,14 +10,16 @@
 
 class FrameBuffer {
 public:
-    FrameBuffer(int width, int height);
+    FrameBuffer(int _width, int _height);
 
-    void put(int x, int y, const RgbColor& color);
-    void update_texture(SDL_Texture *texture);
+    void init_write_mode(SDL_Texture *_texture);
+    void put(int x, int y, RgbColor& color, int sample_per_pixel);
+    void render_texture_on_renderer(SDL_Renderer *renderer, SDL_Rect *pos);
 
 
 private:
-    std::unique_ptr<uint32_t[]> buffer;
+    uint32_t *pixels = nullptr;
+    SDL_Texture *texture = nullptr;
     int width;
     int height;
     int pitch;

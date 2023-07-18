@@ -1,14 +1,17 @@
 #include "camera.hh"
 
 Camera::Camera(Transform &_transform, Vector2 &_image_size, Vector2 &_pos_on_screen, Vector2 &_viewport,
-               double _focal_length)
-        : Object(_transform), focal_length(_focal_length), pos_on_screen(_pos_on_screen),
-          viewport(_viewport),
+               double _focal_length, int _sample_per_pixel)
+        : Object(_transform), sample_per_pixel(_sample_per_pixel), focal_length(_focal_length),
+          pos_on_screen(_pos_on_screen), viewport(_viewport),
           buffer(static_cast<int>(_image_size.x), static_cast<int>(_image_size.y)) {
 
     aspect_ratio = max2<double>(_image_size.x, _image_size.y) / min2<double>(_image_size.x, _image_size.y);
     image_width = static_cast<int>(_image_size.x);
     image_height = static_cast<int>(_image_size.y);
+    vertical_viewport = this->transform.down() * viewport.y;
+    horizontal_viewport = this->transform.right() * viewport.x;
+    lower_left_corner = this->transform.position - horizontal_viewport / 2 - vertical_viewport / 2 - Vector3{0, 0, focal_length};
 
     Engine::add_camera(*this);
 }
@@ -19,7 +22,18 @@ void Camera::create_texture(SDL_Renderer *renderer) {
                                               SDL_TEXTUREACCESS_STREAMING,
                                               image_width, image_height);
 
+    if (_texture == nullptr) {
+        std::cerr << "SDL_Texture has not been created. Reason: " << SDL_GetError() << "\n";
+        // TODO: Clean exit
+    }
+
     texture = std::unique_ptr<SDL_Texture, SDL_TextureDestroyer>(_texture);
+}
+
+Ray Camera::generate_ray(double u, double v) {
+    Ray ray = Ray{this->transform.position,
+                  lower_left_corner + u * horizontal_viewport + v * vertical_viewport - this->transform.position};
+    return ray;
 }
 
 bool Camera::shoot_ray(const Ray &ray, double t_min, double t_max, HitRecord &record, std::list<Object *> *objs) {
@@ -38,10 +52,15 @@ bool Camera::shoot_ray(const Ray &ray, double t_min, double t_max, HitRecord &re
     return hit_anything;
 }
 
-RgbColor Camera::ray_color(const Ray &ray, std::list<Object *> *objs) {
+RgbColor Camera::ray_color(const Ray &ray, std::list<Object *> *objs, int depth) {
     HitRecord record;
-    if (shoot_ray(ray, 0, infinity, record, objs)) {
-        return 0.5 * (record.normal + RgbColor{1, 1, 1});
+
+    if (depth <= 0)
+        return RgbColor{0,0,0};
+
+    if (shoot_ray(ray, 0.001, infinity, record, objs)) {
+        Point3 target = record.p + record.normal + random_in_unit_sphere();
+        return 0.5 * ray_color(Ray{record.p, target - record.p}, objs, depth - 1);
     }
 
     Vector3 unit_dir = ray.dir;
@@ -54,22 +73,19 @@ RgbColor Camera::ray_color(const Ray &ray, std::list<Object *> *objs) {
 
 void Camera::render(SDL_Renderer *renderer, std::list<Object *> *objs) {
 
-    Vector3 vertical = this->transform.down() * viewport.y;
-    Vector3 horizontal = this->transform.right() * viewport.x;
-    Vector3 lower_left_corner = this->transform.position - horizontal / 2 - vertical / 2 - Vector3{0, 0, focal_length};
-
+    static SDL_Rect pos = this->pos_on_screen.to_sdl_rect(image_width, image_height);
+    buffer.init_write_mode(texture.get());
     for (int y = image_height - 1; y >= 0; y--) {
         for (int x = 0; x < image_width; x++) {
-            double u = double(x) / (image_width - 1);
-            double v = double(y) / (image_height - 1);
-            Ray ray = Ray{this->transform.position,
-                          lower_left_corner + u * horizontal + v * vertical - this->transform.position};
-            RgbColor color = ray_color(ray, objs);
-            buffer.put(x, y, color);
+            RgbColor color = RgbColor{0,0,0};
+            for (int s = 0; s < sample_per_pixel; s++) {
+                double u = (random_double() + double(x)) / (image_width - 1);
+                double v = (random_double() + double(y)) / (image_height - 1);
+                Ray ray = generate_ray(u, v);
+                color += ray_color(ray, objs, 50);
+            }
+            buffer.put(x, y, color, sample_per_pixel);
         }
     }
-
-    buffer.update_texture(texture.get());
-    SDL_Rect pos = this->pos_on_screen.to_sdl_rect(image_width, image_height);
-    SDL_RenderCopy(renderer, texture.get(), nullptr, &pos);
+    buffer.render_texture_on_renderer(renderer, &pos);
 }
