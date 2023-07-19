@@ -15,6 +15,9 @@ public:
     [[nodiscard]] double norm() const override;
     [[nodiscard]] double norm2() const override;
 
+    static Vector3 random_unit_vector();
+    static Vector3 random_in_hemisphere(const Vector3 &normal);
+
     static Vector3& zero();
     static Vector3& one();
     static inline Vector3 random() {
