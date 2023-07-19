@@ -3,6 +3,7 @@
 
 #include "maths/maths.hh"
 #include "maths/vector/vector3/vector3.hxx"
+#include "maths/ray/ray.hh"
 
 struct HitRecord {
     Point3 p;
