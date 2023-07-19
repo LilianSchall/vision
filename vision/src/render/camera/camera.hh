@@ -12,6 +12,7 @@
 #include "tools/sdltools.hh"
 #include "framebuffer.hh"
 #include "engine/engine.hh"
+#include "render/renderer/renderer.hh"
 
 class Camera : public Object {
 public:
@@ -36,7 +37,6 @@ private:
 
     Vector2 pos_on_screen;
     Vector2 viewport;
-
 
     FrameBuffer buffer;
     std::unique_ptr<SDL_Texture, SDL_TextureDestroyer> texture;

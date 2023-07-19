@@ -59,7 +59,7 @@ RgbColor Camera::ray_color(const Ray &ray, std::list<Object *> *objs, int depth)
         return RgbColor{0,0,0};
 
     if (shoot_ray(ray, 0.001, infinity, record, objs)) {
-        Point3 target = record.p + record.normal + random_in_unit_sphere();
+        Point3 target = record.p + lambertian_diffusion(record.normal);
         return 0.5 * ray_color(Ray{record.p, target - record.p}, objs, depth - 1);
     }
 
@@ -72,7 +72,6 @@ RgbColor Camera::ray_color(const Ray &ray, std::list<Object *> *objs, int depth)
 }
 
 void Camera::render(SDL_Renderer *renderer, std::list<Object *> *objs) {
-
     static SDL_Rect pos = this->pos_on_screen.to_sdl_rect(image_width, image_height);
     buffer.init_write_mode(texture.get());
     for (int y = image_height - 1; y >= 0; y--) {
